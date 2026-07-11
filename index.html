@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receiving Record System - Abdul Aziz For Fruits & Vegetables</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --leaf: #1B7A3D;
+            --leaf-dark: #145C2E;
+            --tangerine: #F5820A;
+            --tangerine-dark: #D96E00;
+            --tomato: #E1483C;
+            --tomato-dark: #C7362B;
+            --sunshine: #FFB627;
+            --cream: #FFFCF5;
+            --cream-deep: #FFF3DE;
+            --charcoal: #2B2620;
+            --muted: #8A7F6E;
+            --mint-pale: #EAF7EE;
+            --line: #EDE3CF;
+        }
+
+        * { box-sizing: border-box; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+
+        body {
+            font-family: 'Nunito', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--cream);
+            background-image:
+                radial-gradient(circle at 12% 8%, rgba(245,130,10,0.10) 0, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(27,122,61,0.10) 0, transparent 45%);
+            padding: 24px;
+            color: var(--charcoal);
+        }
+
+        .container {
+            max-width: 1150px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 0 0 34px 0;
+            border-radius: 18px;
+            box-shadow: 0 12px 34px rgba(43,38,32,0.10);
+            overflow: hidden;
+            border: 1px solid var(--line);
+        }
+
+        .crate-stripe {
+            height: 12px;
+            width: 100%;
+            background: repeating-linear-gradient(
+                -45deg,
+                var(--leaf), var(--leaf) 18px,
+                var(--sunshine) 18px, var(--sunshine) 36px,
+                var(--tomato) 36px, var(--tomato) 54px,
+                var(--tangerine) 54px, var(--tangerine) 72px
+            );
+        }
+
+        .container > .no-print,
+        .container > #finalReportDisplay {
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+        .container > .no-print { padding-top: 26px; }
+
+        h2 {
+            font-family: 'Baloo 2', 'Nunito', sans-serif;
+            color: var(--leaf-dark);
+            display: flex; align-items: center; gap: 10px; margin-top: 0;
+            font-size: 1.7em;
+            font-weight: 700;
+        }
+        h3 {
+            font-family: 'Baloo 2', 'Nunito', sans-serif;
+            color: var(--leaf-dark);
+            display: flex; align-items: center; gap: 8px;
+            border-bottom: none;
+            padding-bottom: 8px; margin: 0 0 16px 0;
+            font-weight: 600;
+            font-size: 1.15em;
+        }
+        h3::before {
+            content: '';
+            width: 9px; height: 9px;
+            border-radius: 50%;
+            background: var(--tangerine);
+            display: inline-block;
+        }
+
+        .section {
+            margin-bottom: 24px;
+            padding: 22px;
+            background: var(--mint-pale);
+            border: 1px solid var(--line);
+            border-left: 5px solid var(--leaf);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(43,38,32,0.03);
+        }
+        .section:nth-of-type(2) { border-left-color: var(--tangerine); }
+        .section:nth-of-type(3) { border-left-color: var(--tomato); }
+
+        label { font-weight: 700; display: block; margin-top: 12px; font-size: 0.82em; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; }
+
+        input, select, button, textarea {
+            padding: 10px 12px; margin-top: 5px; width: 100%; box-sizing: border-box;
+            border: 1.5px solid #E6DCC7; border-radius: 8px; font-size: 0.95em;
+            font-family: 'Nunito', sans-serif;
+            background: #fff;
+            transition: all 0.2s;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--tangerine); outline: none;
+            box-shadow: 0 0 0 3px rgba(245, 130, 10, 0.15);
+        }
+
+        button { color: white; border: none; cursor: pointer; font-weight: 800; margin-top: 15px; font-family: 'Baloo 2', sans-serif; letter-spacing: 0.3px; box-shadow: 0 3px 0 rgba(0,0,0,0.12); transition: transform 0.12s ease, box-shadow 0.12s ease; }
+        button:hover { transform: translateY(-1px); }
+        button:active { transform: translateY(1px); box-shadow: 0 1px 0 rgba(0,0,0,0.12); }
+        .btn-success { background: linear-gradient(135deg, var(--leaf), var(--leaf-dark)); }
+        .btn-success:hover { background: linear-gradient(135deg, #1f8c46, var(--leaf-dark)); }
+        .btn-primary { background: linear-gradient(135deg, var(--tangerine), var(--tangerine-dark)); }
+        .btn-primary:hover { background: linear-gradient(135deg, #ff9420, var(--tangerine-dark)); }
+        .btn-secondary { background: linear-gradient(135deg, #9c9184, #7a7062); }
+        .btn-secondary:hover { background: linear-gradient(135deg, #8a8074, #675f53); }
+        .btn-danger { background: linear-gradient(135deg, var(--tomato), var(--tomato-dark)); padding: 6px; margin-top: 5px; }
+        .btn-danger:hover { background: linear-gradient(135deg, #ea5b4f, var(--tomato-dark)); }
+
+        .form-row { display: flex; gap: 10px; align-items: flex-end; margin-bottom: 12px; padding: 12px; background: #fff; border: 1px dashed var(--line); border-radius: 10px; }
+        .form-row > div { flex: 1; }
+        .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .thumbnail { width: 44px; height: 44px; object-fit: cover; border-radius: 6px; border: 2px solid var(--sunshine); box-shadow: 0 2px 4px rgba(0,0,0,0.08); display: block; }
+
+        .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(43,38,32,0.55); justify-content: center; align-items: center; z-index: 999; }
+        .modal-box { background: #fff; padding: 28px; border-radius: 16px; width: 450px; text-align: center; box-shadow: 0 16px 40px rgba(0,0,0,0.25); border-top: 6px solid var(--tangerine); }
+        .modal-box h4 { margin-top: 0; color: var(--leaf-dark); font-size: 1.35em; font-family: 'Baloo 2', sans-serif; }
+
+        #finalReportDisplay {
+            display: none;
+            flex-direction: column;
+            background: #fff;
+            padding: 30px;
+            border: none;
+            border-radius: 14px;
+            margin: 20px 30px 0;
+            font-size: 14px;
+            aspect-ratio: 210 / 297; /* mimic an A4 sheet so signatures land at the page bottom */
+        }
+        #finalReportDisplay.report-visible { display: flex; }
+        .company-header-wrapper { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--tangerine); padding-bottom: 15px; margin-bottom: 15px; }
+        .company-header-text h1 { margin: 0; font-size: 20px; font-weight: 800; color: var(--leaf-dark); letter-spacing: 0.3px; font-family: 'Baloo 2', sans-serif; }
+        .company-header-text p { margin: 3px 0; font-size: 12px; color: var(--muted); font-weight: 600; }
+        .company-logo-img { max-height: 68px; width: auto; object-fit: contain; }
+        
+        .doc-title {
+            text-align: center; font-size: 16px; font-weight: 800; color: var(--leaf-dark);
+            margin: 16px 0; letter-spacing: 1.5px; font-family: 'Baloo 2', sans-serif;
+            background: var(--mint-pale);
+            border: 1px solid #cdeadb;
+            padding: 9px; border-radius: 8px;
+        }
+        
+        .meta-table-wrapper { display: flex; justify-content: space-between; background: var(--mint-pale); padding: 13px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid var(--tangerine); font-size: 13px; }
+        .meta-table { width: 48%; border: none; }
+        .meta-table td { border: none; padding: 3px 0; font-size: 13px; color: var(--charcoal); }
+
+        #finalReportTable { width: 100%; table-layout: fixed; border-collapse: collapse; margin-top: 13px; border-radius: 8px; overflow: hidden; font-size: 13px; }
+        #finalReportTable th { background: #DCEFE2; color: var(--leaf-dark); font-weight: 700; padding: 9px 6px; text-transform: uppercase; font-size: 0.74em; letter-spacing: 0.2px; border: 1px solid #c7e4d1; font-family: 'Baloo 2', sans-serif; word-wrap: break-word; }
+        #finalReportTable td { padding: 8px; border: 1px solid var(--line); font-size: 0.92em; word-wrap: break-word; overflow-wrap: break-word; }
+        #finalReportTable tr:nth-child(even) { background-color: var(--cream); }
+        #finalReportTable tr:hover { background-color: var(--cream-deep); }
+        
+        .badge-alert { background-color: #fde3e0; color: var(--tomato-dark); font-weight: 800; padding: 3px 8px; border-radius: 20px; border: 1px solid #f3ada5; font-size: 0.9em; }
+        .badge-success { background-color: #dff5e6; color: var(--leaf-dark); font-weight: 800; padding: 3px 8px; border-radius: 20px; border: 1px solid #b7e6c4; font-size: 0.9em; }
+
+        .textarea-box { background: var(--cream); border-radius: 8px; padding: 11px; margin-top: 4px; font-style: italic; border-left: 3px solid var(--tangerine); color: #55493b; font-size: 13px; }
+
+        .signature-block { display: flex; justify-content: space-between; margin-top: auto; padding-top: 40px; text-align: center; }
+        .signature-line { width: 28%; border-top: 3px solid var(--leaf); padding-top: 6px; font-size: 13px; font-weight: 800; color: var(--leaf-dark); font-family: 'Baloo 2', sans-serif; }
+
+        @media print {
+            @page { margin: 12mm; }
+            html, body {
+                background: #fff !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+            body * { visibility: hidden; }
+            #finalReportDisplay, #finalReportDisplay * { visibility: visible; }
+            #finalReportDisplay {
+                display: flex !important;
+                position: absolute; left: 0; top: 0; width: 100%;
+                border: none; padding: 0; margin: 0;
+                box-shadow: none;
+            }
+            .no-print, #toastContainer { display: none !important; }
+        }
+        /* Non-blocking toast notifications (used instead of alert(), which many
+           sandboxed embeds such as Google Sites silently block) */
+        #toastContainer {
+            position: fixed; top: 18px; right: 18px; z-index: 1200;
+            display: flex; flex-direction: column; gap: 10px;
+            max-width: 320px;
+        }
+        .toast {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700; font-size: 0.9em; color: #fff;
+            padding: 12px 16px; border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+            animation: toastIn 0.25s ease-out;
+        }
+        .toast-success { background: linear-gradient(135deg, var(--leaf), var(--leaf-dark)); }
+        .toast-warning { background: linear-gradient(135deg, var(--tangerine), var(--tangerine-dark)); }
+        .toast-error   { background: linear-gradient(135deg, var(--tomato), var(--tomato-dark)); }
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+<div id="toastContainer" class="no-print"></div>
+
+<div class="container">
+    <div class="crate-stripe"></div>
+    <div class="no-print">
+        <h2>🍏 Receiving Report Control Hub</h2>
+        <p style="margin-top:-8px; margin-bottom:22px; color:var(--muted); font-weight:700; font-size:0.9em; letter-spacing:0.3px;">ABDUL AZIZ FOR FRUITS &amp; VEGETABLES &nbsp;•&nbsp; Quality Operations Division</p>
+
+        <!-- 1. Header Information -->
+        <div class="section">
+            <h3>1. Shipment Metadata Header</h3>
+            <div class="meta-grid">
+                <div>
+                    <label>Supplier Name:</label>
+                    <input type="text" id="inputSupplier" placeholder="e.g., Al-Sulaiteen Gardens">
+                    <label>Invoice/Order No:</label>
+                    <input type="text" id="inputInvoiceNo" placeholder="INV-2026-001">
+                    <label>Invoice Date:</label>
+                    <input type="date" id="inputInvoiceDate">
+                    <label>TY/AWB No:</label>
+                    <input type="text" id="inputTyNo" placeholder="e.g., Truck Fleet #4">
+                </div>
+                <div>
+                    <label>Received Date:</label>
+                    <input type="date" id="inputRecDate">
+                    <label>Received Time:</label>
+                    <input type="time" id="inputRecTime">
+                    <label>Receiving Temp:</label>
+                    <input type="text" inputmode="decimal" id="inputTemp" placeholder="e.g., 4 or -2" oninput="formatTempInput(this)" onblur="formatTempInput(this, true)">
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Item & Unit Configurations -->
+        <div class="section">
+            <h3>2. Dynamic Produce & Unit Master Config</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div>
+                    <label>Add Extra Item:</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="newItemName" placeholder="e.g., Berry توت">
+                        <button onclick="addItem()" class="btn-success" style="margin-top: 5px; width: 120px;">Add Item</button>
+                    </div>
+                </div>
+                <div>
+                    <label>Add Extra Unit Type:</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="newUnitName" placeholder="e.g., Pallet بالت">
+                        <button onclick="addUnit()" class="btn-success" style="margin-top: 5px; width: 120px;">Add Unit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Dynamic Multi-item receiving form grid -->
+        <div class="section">
+            <h3>3. Shipment Batch Processing Rows</h3>
+            <div id="reportForm">
+                <div id="dynamicRowsContainer">
+                    <div class="form-row">
+                        <div style="flex: 2;">
+                            <label>Item Name:</label>
+                            <select class="item-select"></select>
+                        </div>
+                        <div style="flex: 1;">
+                            <label>Unit Type:</label>
+                            <select class="unit-select"></select>
+                        </div>
+                        <div>
+                            <label>Invoice Qty:</label>
+                            <input type="number" class="invoice-qty" oninput="calculateRowDifference(this)">
+                        </div>
+                        <div>
+                            <label>Received Qty:</label>
+                            <input type="number" class="actual-qty" oninput="calculateRowDifference(this)">
+                        </div>
+                        <div>
+                            <label>Difference:</label>
+                            <input type="number" class="difference-qty" readonly style="background-color: #f3f4f6;">
+                        </div>
+                        <div style="flex: 1.5;">
+                            <label>Complaints / Status:</label>
+                            <input type="text" class="complaint-text" placeholder="e.g., Fresh Check / Approved">
+                        </div>
+                        <div style="flex: 1.2;">
+                            <label>Photo Attachment:</label>
+                            <input type="file" class="photo-file" accept="image/*">
+                        </div>
+                        <div style="flex: 0 0 40px;"></div>
+                    </div>
+                </div>
+
+                <button type="button" onclick="addNewRowToForm()" class="btn-secondary" style="width: auto; margin-right: 10px;">➕ Add Next Entry Row</button>
+                <button type="button" onclick="submitBatchData()" class="btn-primary" style="width: auto;">Log Current Batch Elements</button>
+            </div>
+
+            <div style="margin-top: 20px; display: flex; gap: 20px;">
+                <div style="flex: 1;">
+                    <label>Additional Notes / Remarks:</label>
+                    <textarea id="inputNotes" rows="3" placeholder="Enter general cargo evaluation details..."></textarea>
+                </div>
+                <div style="flex: 1;">
+                    <label>Damage Log Summary Details:</label>
+                    <textarea id="inputDamages" rows="3" placeholder="Explicit loss metrics or rejected pallets detail..."></textarea>
+                </div>
+            </div>
+
+            <button onclick="triggerReportOption()" class="btn-success" style="font-size: 1.1em; padding: 14px; width: 100%; margin-top: 25px; box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);">📋 Compile Official Quality Log Data</button>
+        </div>
+    </div>
+
+    <!-- INTERMEDIARY CONFIRMATION OPTION WINDOW (MODAL) -->
+    <div class="modal-overlay" id="optionModal">
+        <div class="modal-box">
+            <h4>Report Successfully Compiled!</h4>
+            <p style="color: #555; font-size: 0.95em; margin-bottom: 20px;">The data ledger has been structured perfectly. Would you like to generate the viewable layout document now?</p>
+            <button onclick="confirmAndShowReport()" class="btn-success" style="margin-top:0; width: 100%;">👁️ Generate & View Receiving Report</button>
+            <button onclick="closeOptionModal()" class="btn-secondary" style="margin-top:10px; width: 100%; background-color:#aaa;">Cancel & Edit Data</button>
+        </div>
+    </div>
+
+    <!-- 4. OFFICIAL COMPANY PRINT FORMAT DESIGN OUTPUT -->
+    <div id="finalReportDisplay">
+        <div class="company-header-wrapper">
+            <div class="company-header-text">
+                <h1>ABDUL AZIZ FOR FRUITS & VEGETABLES</h1>
+                <p>P.O Box 3634, Birkat Al Awamer, Qatar</p>
+                <p>Email: info@abdulaziztrading.com | Quality Operations Division</p>
+            </div>
+            <img src="https://abdulaziztrading.com/img/logo.png" class="company-logo-img" alt="Abdul Aziz Logo" onerror="this.onerror=null;this.src='https://lh3.googleusercontent.com/d/1hiQGHc0ogjLJX5OcjW1Mua0asJGm9jH3';">
+        </div>
+        
+        <div class="doc-title">RECEIVING RECORD</div>
+
+        <div class="meta-table-wrapper">
+            <table class="meta-table">
+                <tr><td><strong>Supplier Name:</strong></td><td><span id="lblSupplier" style="color:var(--leaf-dark); font-weight:600;"></span></td></tr>
+                <tr><td><strong>Invoice/Order No:</strong></td><td><span id="lblInvoiceNo"></span></td></tr>
+                <tr><td><strong>Invoice Date:</strong></td><td><span id="lblInvoiceDate"></span></td></tr>
+                <tr><td><strong>TY/AWB No:</strong></td><td><span id="lblTyNo"></span></td></tr>
+            </table>
+            <table class="meta-table">
+                <tr><td><strong>Received Date:</strong></td><td><span id="lblRecDate"></span></td></tr>
+                <tr><td><strong>Received Time:</strong></td><td><span id="lblRecTime"></span></td></tr>
+                <tr><td><strong>Quality Inspector:</strong></td><td><span id="lblActor" style="font-weight: 600;"></span></td></tr>
+                <tr><td><strong>Receiving Temp:</strong></td><td><span id="lblTemp" class="badge-success"></span></td></tr>
+            </table>
+        </div>
+
+        <table id="finalReportTable">
+            <thead>
+                <tr>
+                    <th style="width: 34px; text-align: center;">No</th>
+                    <th style="width: 58px; text-align: center;">Photo</th>
+                    <th style="width: 34%;">ITEMS</th>
+                    <th style="width: 70px;">UNIT</th>
+                    <th style="width: 75px; text-align: right;">INVOICE QTY</th>
+                    <th style="width: 80px; text-align: right;">RECEIVED QTY</th>
+                    <th style="width: 70px; text-align: right;">DIFFERENCE</th>
+                    <th>STATUS / COMPLAINTS</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Row data enters here dynamically -->
+            </tbody>
+            <tfoot>
+                <tr style="background-color: #f3f4f6; font-weight: 800; color: var(--leaf-dark); border-top: 2px solid var(--leaf-dark);">
+                    <td colspan="4" style="text-align: right; padding: 12px;">Grand Total:</td>
+                    <td id="totalInvoiceSum" style="text-align: right;">0</td>
+                    <td id="totalReceivedSum" style="text-align: right;">0</td>
+                    <td id="totalDifferenceSum" style="text-align: right;">0</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <!-- Custom Corporate Remarks Sections -->
+        <div style="margin-top: 30px; font-size: 14px;">
+            <strong style="color: var(--leaf-dark); font-size: 1.05em;">Operation Notes & Remarks</strong>
+            <div style="margin-top: 8px;">
+                <strong style="font-size: 0.9em; color:#4b5563;">General Remarks Log:</strong>
+                <p id="lblNotes" class="textarea-box">None recorded.</p>
+                
+                <strong style="font-size: 0.9em; color:#4b5563;">Discrepancy / Damage Summary Log:</strong>
+                <p id="lblDamages" class="textarea-box" style="border-left-color: var(--tomato);">None recorded.</p>
+            </div>
+        </div>
+
+        <!-- Role Signature Elements Blocks -->
+        <div class="signature-block">
+            <div class="signature-line">Prepared By : <br><small style="font-weight:normal; color:#6b7280;">(Report Creator)</small></div>
+            <div class="signature-line">Received By : <br><small style="font-weight:normal; color:#6b7280;">(Container Receiver)</small></div>
+            <div class="signature-line">Approved By : <br><small style="font-weight:normal; color:#6b7280;">(Report Approval)</small></div>
+        </div>
+
+        <div style="margin-top: 50px; text-align: center;" class="no-print">
+            <button onclick="downloadReportAsPDF()" class="btn-primary" style="width: auto; padding: 14px 50px; font-size: 1.05em; box-shadow: 0 4px 6px rgba(30, 58, 138, 0.15);">⬇️ Download Report as PDF</button>
+            <button onclick="safePrint()" class="btn-secondary" style="width: auto; padding: 14px 30px;">🖨️ Print Instead</button>
+            <button onclick="closeReport()" style="width: auto; padding: 14px 30px; background-color: #6b7280;">Return to Console</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Master Produce List Array
+    let items = [
+        "Ash Gourd  كمبيلا", "Baby Marrow كوسة", "Beans Green فاصوليا", "Beetroot شمندر", 
+        "Bittergourd كريلا", "Brinjol, Box برنجال", "Broccoli بروكلى", "Cabbage - Chinese خس صيني", 
+        "Cabbage Red ملفوف احمر", "Cabbage White ملفوف", "Capsicum Yellow فلفل حلو اصفر", 
+        "Capsicum Green فلفل حلو اخضر", "Capsicum Green Long فلفل اخضر طويل", "Capsicum Mix Color فلفل حلو مزيج", 
+        "Capsicum Red فلفل حلو احمر", "Carrots جزر", "Cauli Flower زهرة", "Celery Stick كرفس", 
+        "Chilli Green India فلفل حار هندى", "Chilli Green Long فلفل حار طويل", "Chilli Hot Red فلفل حار احمر", 
+        "Coconuts جوز", "Cucumber خيار", "Curry Leaves كربتا", "Drumsticks درام ستيك", "Eggplant باذنجان", 
+        "Eggplant Green House دفيئة الباذنجان", "Eggplant Long باذنجان طويل", "Eggplant Makshi باذنجان محشى", 
+        "Eggplant Purple Round جولة أرجواني", "Garlic ثوم", "Garlic Peeled ثوم مقشر", "Ginger زنجبيل", 
+        "Iceberg Letuce خس افرنجى", "Lady Finger بامية", "Lettuce خس", "Mushroom مشروم", "Onion Brown بصل برون", 
+        "Onion Red Bag بصل احمر", "Onion Red Small بصل احمر صغير", "Onion White بصل ابيض", "Potato بطاطا", 
+        "Potato Small Bag بطاطا", "Potato 7 kg, بطاطا", "Potato-10 kg, بطاطا", "Pumkin Red بوبر احمر", 
+        "Pumkin Butternut قرع احمر جوز", "Pumkin White ابيض قرع", "Radish White فجل ابيض", "Spring Onion بصل اخضر", 
+        "Sweet Corn ذرة", "Sweet Corn , Pc ذرة", "Sweet Melon, Box شمام", "Tomato - Jordan, Box طماطم الأردن", 
+        "Tomato , Box طماطم", "Tomato Balahi, Box طماطم بالاهي", "Tomato Bunch, Box طماطم بانش", 
+        "Tomato Cherry , Box طماطم شيرى", "Tomato Green House , Box طماطم دفيئة", "Turnips, Bag لفت", 
+        "Honey Dew Melon, Box حني ميلن", "Orange - For Juice, Box برتقال عصير", "Orange - Naval, Box برتقال ابو صرة", 
+        "Orange Juice S. Africa, Box عصير برتقال - افريقي", "Pineapple Philippine, Box اناناس فلبينية", 
+        "Pineapples India , Kg اناناس هندي", "Plums Red, Box كوجة", "Rock Melon, Box ركميلن", 
+        "Water Melon , Kg بطيخ", "Lemon , Box ليمون", "Lime, Box لايم"
+    ];
+
+    // Master Units List Array
+    let units = [
+        "Box صندوق",
+        "Carton كارتون",
+        "Bag كيس",
+        "Kg كيلو",
+        "Pcs حبة",
+        "Bundle ربطة",
+        "Pkt باكت"
+    ];
+
+    let reportDataLog = [];
+
+    // Shows a temporary, non-blocking notification instead of alert()/confirm().
+    // This matters for embedded contexts (e.g. Google Sites) where sandboxed
+    // iframes often silently block native browser dialogs.
+    // Automatically appends the °C unit as the user types a receiving
+    // temperature, so they only ever need to type the number.
+    function formatTempInput(el, finalize) {
+        let raw = el.value;
+        // Keep only digits, one leading minus/plus, and one decimal point
+        let numPart = raw.replace(/[^\d.\-+]/g, '');
+        if (numPart === '' || numPart === '-' || numPart === '+') {
+            el.value = numPart;
+            return;
+        }
+        el.value = numPart + '°C';
+        if (finalize) {
+            // Move cursor to end after formatting on blur
+            el.setSelectionRange && el.setSelectionRange(el.value.length, el.value.length);
+        }
+    }
+
+    function showToast(message, type) {
+        const container = document.getElementById('toastContainer');
+        if (!container) { return; }
+        const toast = document.createElement('div');
+        toast.className = 'toast toast-' + (type || 'success');
+        toast.textContent = message;
+        container.appendChild(toast);
+        setTimeout(() => {
+            toast.style.transition = 'opacity 0.3s ease';
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 300);
+        }, 3200);
+    }
+
+    window.onload = function() {
+        document.getElementById('inputRecDate').valueAsDate = new Date();
+        updateAllSelectDropdowns();
+    };
+
+    function addItem() {
+        const itemNameInput = document.getElementById('newItemName');
+        const itemName = itemNameInput.value.trim();
+        if (itemName && !items.includes(itemName)) {
+            items.push(itemName);
+            updateAllSelectDropdowns();
+            itemNameInput.value = '';
+        } else {
+            showToast("Empty or duplicate item entry.", "error");
+        }
+    }
+
+    function addUnit() {
+        const unitNameInput = document.getElementById('newUnitName');
+        const unitName = unitNameInput.value.trim();
+        if (unitName && !units.includes(unitName)) {
+            units.push(unitName);
+            updateAllSelectDropdowns();
+            unitNameInput.value = '';
+        } else {
+            showToast("Empty or duplicate unit entry.", "error");
+        }
+    }
+
+    function updateAllSelectDropdowns() {
+        // Update Items Dropdowns
+        document.querySelectorAll('.item-select').forEach(select => {
+            const currentVal = select.value;
+            select.innerHTML = "";
+            items.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item;
+                option.textContent = item;
+                select.appendChild(option);
+            });
+            if(currentVal) select.value = currentVal;
+        });
+
+        // Update Units Dropdowns
+        document.querySelectorAll('.unit-select').forEach(select => {
+            const currentVal = select.value;
+            select.innerHTML = "";
+            units.forEach(unit => {
+                const option = document.createElement('option');
+                option.value = unit;
+                option.textContent = unit;
+                select.appendChild(option);
+            });
+            if(currentVal) select.value = currentVal;
+        });
+    }
+
+    function addNewRowToForm() {
+        const container = document.getElementById('dynamicRowsContainer');
+        const newRow = document.createElement('div');
+        newRow.className = 'form-row';
+        
+        newRow.innerHTML = `
+            <div style="flex: 2;"><select class="item-select"></select></div>
+            <div style="flex: 1;"><select class="unit-select"></select></div>
+            <div><input type="number" class="invoice-qty" style="text-align: right;" oninput="calculateRowDifference(this)"></div>
+            <div><input type="number" class="actual-qty" style="text-align: right;" oninput="calculateRowDifference(this)"></div>
+            <div><input type="number" class="difference-qty" style="text-align: right; background-color:#f3f4f6;" readonly></div>
+            <div style="flex: 1.5;"><input type="text" class="complaint-text" placeholder="Condition details..."></div>
+            <div style="flex: 1.2;"><input type="file" class="photo-file" accept="image/*"></div>
+            <div style="flex: 0 0 40px;"><button type="button" class="btn-danger" onclick="this.closest('.form-row').remove()">✖</button></div>
+        `;
+        container.appendChild(newRow);
+        updateAllSelectDropdowns();
+    }
+
+    function calculateRowDifference(inputElement) {
+        const row = inputElement.closest('.form-row');
+        const invoiceInput = row.querySelector('.invoice-qty');
+        const actualInput = row.querySelector('.actual-qty');
+        const invoice = parseFloat(invoiceInput.value) || 0;
+        const actual = parseFloat(actualInput.value) || 0;
+        row.querySelector('.difference-qty').value = invoice - actual;
+        invoiceInput.style.borderColor = '';
+        actualInput.style.borderColor = '';
+    }
+
+    function submitBatchData() {
+        const rows = document.querySelectorAll('.form-row');
+        let hasError = false;
+
+        rows.forEach(row => {
+            const invoiceInput = row.querySelector('.invoice-qty');
+            const actualInput = row.querySelector('.actual-qty');
+            if (invoiceInput.value === '' || actualInput.value === '') {
+                hasError = true;
+                invoiceInput.style.borderColor = 'var(--tomato)';
+                actualInput.style.borderColor = 'var(--tomato)';
+            }
+        });
+
+        if (hasError) {
+            showToast("Please fill in Invoice Qty and Received Qty for every row before logging.", "error");
+            return;
+        }
+
+        rows.forEach(row => {
+            const item = row.querySelector('.item-select').value;
+            const unit = row.querySelector('.unit-select').value;
+            const invoiceQty = parseFloat(row.querySelector('.invoice-qty').value) || 0;
+            const actualQty = parseFloat(row.querySelector('.actual-qty').value) || 0;
+            const difference = parseFloat(row.querySelector('.difference-qty').value) || 0;
+            const complaint = row.querySelector('.complaint-text').value || "Passed Quality Check";
+            const photoInput = row.querySelector('.photo-file');
+            
+            let photoSrc = "";
+            if (photoInput.files && photoInput.files[0]) {
+                photoSrc = URL.createObjectURL(photoInput.files[0]);
+            }
+
+            reportDataLog.push({ item, unit, invoiceQty, actualQty, difference, complaint, photoSrc });
+        });
+
+        showToast("Batch components logged into dashboard layout successfully!", "success");
+        
+        document.getElementById('dynamicRowsContainer').innerHTML = `
+            <div class="form-row">
+                <div style="flex: 2;"><label>Item Name:</label><select class="item-select"></select></div>
+                <div style="flex: 1;"><label>Unit Type:</label><select class="unit-select"></select></div>
+                <div><label>Invoice Qty:</label><input type="number" class="invoice-qty" style="text-align: right;" oninput="calculateRowDifference(this)"></div>
+                <div><label>Received Qty:</label><input type="number" class="actual-qty" style="text-align: right;" oninput="calculateRowDifference(this)"></div>
+                <div><label>Difference:</label><input type="number" class="difference-qty" style="text-align: right; background-color:#f3f4f6;" readonly></div>
+                <div style="flex: 1.5;"><label>Complaints / Status:</label><input type="text" class="complaint-text" placeholder="Condition..."></div>
+                <div style="flex: 1.2;"><label>Photo Attachment:</label><input type="file" class="photo-file" accept="image/*"></div>
+                <div style="flex: 0 0 40px;"></div>
+            </div>
+        `;
+        updateAllSelectDropdowns();
+    }
+
+    function triggerReportOption() {
+        if(reportDataLog.length === 0) {
+            showToast("Staging container is empty. Please log your items into the batch first.", "warning");
+            return;
+        }
+        document.getElementById('optionModal').style.display = 'flex';
+    }
+
+    function closeOptionModal() {
+        document.getElementById('optionModal').style.display = 'none';
+    }
+
+    function confirmAndShowReport() {
+        closeOptionModal();
+        generateFinalReport();
+    }
+
+    function generateFinalReport() {
+        document.getElementById('lblSupplier').textContent = document.getElementById('inputSupplier').value || "Not Specified";
+        document.getElementById('lblInvoiceNo').textContent = document.getElementById('inputInvoiceNo').value || "N/A";
+        document.getElementById('lblInvoiceDate').textContent = document.getElementById('inputInvoiceDate').value || "N/A";
+        document.getElementById('lblTyNo').textContent = document.getElementById('inputTyNo').value || "N/A";
+        document.getElementById('lblRecDate').textContent = document.getElementById('inputRecDate').value || "N/A";
+        document.getElementById('lblRecTime').textContent = document.getElementById('inputRecTime').value || "N/A";
+        document.getElementById('lblTemp').textContent = document.getElementById('inputTemp').value || "Not Logged";
+        document.getElementById('lblActor').textContent = "Quality Logistics Manager";
+
+        document.getElementById('lblNotes').textContent = document.getElementById('inputNotes').value.trim() || "No additional standard remarks logged.";
+        document.getElementById('lblDamages').textContent = document.getElementById('inputDamages').value.trim() || "No dynamic transit damages logged.";
+
+        const finalTbody = document.querySelector('#finalReportTable tbody');
+        finalTbody.innerHTML = "";
+
+        let sumInvoice = 0, sumReceived = 0, sumDiff = 0;
+
+        reportDataLog.forEach((row, index) => {
+            sumInvoice += row.invoiceQty;
+            sumReceived += row.actualQty;
+            sumDiff += row.difference;
+
+            const tr = document.createElement('tr');
+            const imgTag = row.photoSrc ? `<img src="${row.photoSrc}" class="thumbnail" style="margin: 0 auto;">` : `<span style="color:#aaa; font-size:10px;">No Photo</span>`;
+            
+            const diffDisplay = row.difference !== 0 
+                ? `<span class="badge-alert">${row.difference}</span>` 
+                : `<span style="color:#6b7280;">0</span>`;
+
+            tr.innerHTML = `
+                <td style="text-align: center; font-weight: bold; color: var(--leaf-dark);">${index + 1}</td>
+                <td style="text-align: center; padding: 4px;">${imgTag}</td>
+                <td><strong>${row.item}</strong></td>
+                <td style="color:#4b5563; font-weight:500;">${row.unit}</td>
+                <td style="text-align: right; font-weight:500;">${row.invoiceQty}</td>
+                <td style="text-align: right; font-weight:500;">${row.actualQty}</td>
+                <td style="text-align: right;">${diffDisplay}</td>
+                <td><span class="${row.difference !== 0 ? '' : 'badge-success'}">${row.complaint}</span></td>
+            `;
+            finalTbody.appendChild(tr);
+        });
+
+        document.getElementById('totalInvoiceSum').textContent = sumInvoice;
+        document.getElementById('totalReceivedSum').textContent = sumReceived;
+        document.getElementById('totalDifferenceSum').textContent = sumDiff;
+
+        document.getElementById('finalReportDisplay').classList.add('report-visible');
+        window.scrollTo({ top: document.getElementById('finalReportDisplay').offsetTop, behavior: 'smooth' });
+
+        // Automatically produce the PDF once the report is built. A short
+        // delay lets the browser finish laying out/painting the table and
+        // photo thumbnails before it's captured.
+        showToast("Report generated. Preparing your PDF…", "success");
+        setTimeout(downloadReportAsPDF, 500);
+    }
+
+    function closeReport() {
+        document.getElementById('finalReportDisplay').classList.remove('report-visible');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Builds a real PDF client-side (via html2canvas + jsPDF) and triggers
+    // a download. This does NOT depend on window.print() or any native
+    // browser dialog, so it keeps working inside sandboxed embeds such as
+    // a Google Sites "Embed code" block, where print/alert dialogs are
+    // often silently blocked.
+    async function downloadReportAsPDF() {
+        const reportEl = document.getElementById('finalReportDisplay');
+        if (!reportEl || !reportEl.classList.contains('report-visible')) {
+            showToast("Please generate the report first.", "warning");
+            return;
+        }
+        if (typeof html2canvas === 'undefined' || typeof window.jspdf === 'undefined') {
+            showToast("PDF library failed to load (check your internet connection), falling back to Print.", "error");
+            safePrint();
+            return;
+        }
+
+        try {
+            const canvas = await html2canvas(reportEl, {
+                scale: 2,
+                useCORS: true,
+                backgroundColor: '#ffffff',
+                ignoreElements: (el) => el.classList && el.classList.contains('no-print')
+            });
+            const imgData = canvas.toDataURL('image/png');
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const pageWidth = pdf.internal.pageSize.getWidth();
+            const pageHeight = pdf.internal.pageSize.getHeight();
+            const imgWidth = pageWidth;
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+            let heightLeft = imgHeight;
+            let position = 0;
+
+            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+
+            while (heightLeft > 0) {
+                position = heightLeft - imgHeight;
+                pdf.addPage();
+                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+            }
+
+            const supplier = (document.getElementById('lblSupplier').textContent || 'Report').replace(/[^a-z0-9]+/gi, '_');
+            const dateStamp = new Date().toISOString().slice(0, 10);
+            pdf.save(`Receiving_Report_${supplier}_${dateStamp}.pdf`);
+            showToast("PDF downloaded successfully!", "success");
+        } catch (err) {
+            console.error('PDF generation failed:', err);
+            showToast("Automatic PDF download failed. Trying Print instead.", "error");
+            safePrint();
+        }
+    }
+
+    // window.print() can be blocked when this page runs inside a sandboxed
+    // iframe (e.g. pasted directly into a Google Sites "Embed code" block).
+    // If that happens, guide the person to open the file in its own tab
+    // instead of failing silently.
+    function safePrint() {
+        try {
+            const ok = window.print();
+            if (ok === false) { throw new Error('print blocked'); }
+        } catch (err) {
+            showToast("Printing is blocked inside this embedded view. Open this page in its own browser tab (not embedded) and try again.", "warning");
+        }
+    }
+</script>
+
+</body>
+</html>
