@@ -136,7 +136,6 @@
         .modal-box { background: #fff; padding: 28px; border-radius: 16px; width: 450px; text-align: center; box-shadow: 0 16px 40px rgba(0,0,0,0.25); border-top: 6px solid var(--tangerine); }
         .modal-box h4 { margin-top: 0; color: var(--leaf-dark); font-size: 1.35em; font-family: 'Baloo 2', sans-serif; }
 
-        /* Report View Setup */
         #finalReportDisplay {
             display: none;
             flex-direction: column;
@@ -145,8 +144,8 @@
             border: none;
             border-radius: 14px;
             margin: 20px auto 0;
-            font-size: 15px; /* Slightly larger base font size */
-            min-height: 1123px; /* Standard A4 vertical boundary */
+            font-size: 15px;
+            min-height: 1123px;
         }
         #finalReportDisplay.report-visible { display: flex; }
         .company-header-wrapper { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--tangerine); padding-bottom: 15px; margin-bottom: 15px; }
@@ -198,7 +197,7 @@
             }
             .no-print, #toastContainer { display: none !important; }
         }
-        
+
         #toastContainer {
             position: fixed; top: 18px; right: 18px; z-index: 1200;
             display: flex; flex-direction: column; gap: 10px;
@@ -229,9 +228,24 @@
 <div class="container">
     <div class="crate-stripe"></div>
     <div class="no-print">
-        <h2>🍏 Receiving Report Control Hub</h2>
-        <p style="margin-top:-8px; margin-bottom:22px; color:var(--muted); font-weight:700; font-size:0.9em; letter-spacing:0.3px;">ABDUL AZIZ FOR FRUITS & VEGETABLES  •  Quality Operations Division</p>
+        
+        <!-- UPDATED HEADER HUB: Title centered, sub-labels underneath, logo locked to the right side -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; gap: 15px; padding-top: 15px;">
+            <div style="flex: 1;"></div>
+            
+            <div style="flex: 2; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                <h2 style="margin: 0; font-size: 1.7em; font-weight: 700; white-space: nowrap; justify-content: center;">📋Receiving Report</h2>
+                <div style="color: var(--muted); font-weight: 700; font-size: 0.82em; letter-spacing: 0.5px; text-transform: uppercase;">
+                    ABDUL AZIZ FOR FRUITS & VEGETABLES <span style="color: var(--tangerine); font-weight: 900; margin: 0 4px;">•</span> <span style="font-weight: 600; text-transform: none; opacity: 0.85;">Quality Operations Division</span>
+                </div>
+            </div>
+            
+            <div style="flex: 1; display: flex; align-items: center; justify-content: flex-end;">
+                <img src="https://abdulaziztrading.com/img/logo.png" style="max-height: 46px; width: auto; object-fit: contain;" alt="Abdul Aziz Logo" onerror="this.onerror=null;this.src='https://lh3.googleusercontent.com/d/1hiQGHc0ogjLJX5OcjW1Mua0asJGm9jH3';">
+            </div>
+        </div>
 
+        <!-- 1. Header Information -->
         <div class="section">
             <h3>1. Shipment Metadata Header</h3>
             <div class="meta-grid">
@@ -256,6 +270,7 @@
             </div>
         </div>
 
+        <!-- 2. Item & Unit Configurations -->
         <div class="section">
             <h3>2. Dynamic Produce & Unit Master Config</h3>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
@@ -276,6 +291,7 @@
             </div>
         </div>
 
+        <!-- 3. Dynamic Multi-item receiving form grid -->
         <div class="section">
             <h3>3. Shipment Batch Processing Rows</h3>
             <div id="reportForm">
@@ -332,6 +348,7 @@
         </div>
     </div>
 
+    <!-- INTERMEDIARY CONFIRMATION OPTION WINDOW (MODAL) -->
     <div class="modal-overlay" id="optionModal">
         <div class="modal-box">
             <h4>Report Successfully Compiled!</h4>
@@ -341,6 +358,7 @@
         </div>
     </div>
 
+    <!-- 4. OFFICIAL COMPANY PRINT FORMAT DESIGN OUTPUT -->
     <div id="finalReportDisplay">
         <div class="company-header-wrapper">
             <div class="company-header-text">
@@ -382,7 +400,8 @@
                 </tr>
             </thead>
             <tbody>
-                </tbody>
+                <!-- Row data enters here dynamically -->
+            </tbody>
             <tfoot>
                 <tr style="background-color: #f3f4f6; font-weight: 800; color: var(--leaf-dark); border-top: 2px solid var(--leaf-dark);">
                     <td colspan="4" style="text-align: right; padding: 12px;">Grand Total:</td>
@@ -394,6 +413,7 @@
             </tfoot>
         </table>
 
+        <!-- Custom Corporate Remarks Sections -->
         <div style="margin-top: 30px; font-size: 14px;">
             <strong style="color: var(--leaf-dark); font-size: 1.05em;">Operation Notes & Remarks</strong>
             <div style="margin-top: 8px;">
@@ -405,6 +425,7 @@
             </div>
         </div>
 
+        <!-- Role Signature Elements Blocks -->
         <div class="signature-block">
             <div class="signature-line">Prepared By : <br><small style="font-weight:normal; color:#6b7280;">(Report Creator)</small></div>
             <div class="signature-line">Received By : <br><small style="font-weight:normal; color:#6b7280;">(Container Receiver)</small></div>
@@ -420,7 +441,6 @@
 </div>
 
 <script>
-    // Master Produce List Array
     let items = [
         "Ash Gourd  كمبيلا", "Baby Marrow كوسة", "Beans Green فاصوليا", "Beetroot شمندر", 
         "Bittergourd كريلا", "Brinjol, Box برنجال", "Broccoli بروكلى", "Cabbage - Chinese خس صيني", 
@@ -444,15 +464,8 @@
         "Water Melon , Kg بطيخ", "Lemon , Box ليمون", "Lime, Box لايم"
     ];
 
-    // Master Units List Array
     let units = [
-        "Box صندوق",
-        "Carton كارتون",
-        "Bag كيس",
-        "Kg كيلو",
-        "Pcs حبة",
-        "Bundle ربطة",
-        "Pkt باكت"
+        "Box صندوق", "Carton كارتون", "Bag كيس", "Kg كيلو", "Pcs حبة", "Bundle ربطة", "Pkt باكت"
     ];
 
     let reportDataLog = [];
@@ -714,8 +727,6 @@
         const originalMaxWidth = reportEl.style.maxWidth;
         const originalMargin = reportEl.style.margin;
         
-        // Locked capture width down to 756px (instead of 794px).
-        // This causes the internal contents/fonts to scale up by exactly 5% when sized back up into A4 dimensions!
         reportEl.style.width = '756px';
         reportEl.style.maxWidth = '756px';
         reportEl.style.margin = '0 auto';
@@ -724,19 +735,17 @@
 
         try {
             const canvas = await html2canvas(reportEl, {
-                scale: 2, 
+                scale: 2,
                 useCORS: true,
                 backgroundColor: '#ffffff',
-                windowWidth: 756, 
+                windowWidth: 756,
                 ignoreElements: (el) => el.classList && el.classList.contains('no-print')
             });
-            
             const imgData = canvas.toDataURL('image/png');
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF('p', 'mm', 'a4');
-            
             const pageWidth = pdf.internal.pageSize.getWidth();
-            const pageHeight = pdf.internal.pageSize.getHeight(); 
+            const pageHeight = pdf.internal.pageSize.getHeight();
             const imgWidth = pageWidth;
             const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
@@ -757,12 +766,11 @@
             const dateStamp = new Date().toISOString().slice(0, 10);
             pdf.save(`Receiving_Report_${supplier}_${dateStamp}.pdf`);
             showToast("PDF downloaded successfully!", "success");
-            
         } catch (err) {
             console.error('PDF generation failed:', err);
             showToast("Automatic PDF download failed. Trying Print instead.", "error");
             safePrint();
-        } finally {
+        } finaly {
             reportEl.style.width = originalWidth;
             reportEl.style.maxWidth = originalMaxWidth;
             reportEl.style.margin = originalMargin;
@@ -774,7 +782,7 @@
             const ok = window.print();
             if (ok === false) { throw new Error('print blocked'); }
         } catch (err) {
-            showToast("Printing is blocked inside this embedded view. Open this page in its own browser tab (not embedded) and try again.", "warning");
+            showToast("Printing is blocked inside this embedded view. Open this page in its own browser tab and try again.", "warning");
         }
     }
 </script>
