@@ -140,12 +140,12 @@
             display: none;
             flex-direction: column;
             background: #fff;
-            padding: 30px;
+            padding: 40px;
             border: none;
             border-radius: 14px;
-            margin: 20px 30px 0;
-            font-size: 14px;
-            aspect-ratio: 210 / 297; /* mimic an A4 sheet so signatures land at the page bottom */
+            margin: 20px auto 0;
+            font-size: 15px;
+            min-height: 1123px;
         }
         #finalReportDisplay.report-visible { display: flex; }
         .company-header-wrapper { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--tangerine); padding-bottom: 15px; margin-bottom: 15px; }
@@ -197,8 +197,7 @@
             }
             .no-print, #toastContainer { display: none !important; }
         }
-        /* Non-blocking toast notifications (used instead of alert(), which many
-           sandboxed embeds such as Google Sites silently block) */
+        
         #toastContainer {
             position: fixed; top: 18px; right: 18px; z-index: 1200;
             display: flex; flex-direction: column; gap: 10px;
@@ -230,9 +229,8 @@
     <div class="crate-stripe"></div>
     <div class="no-print">
         <h2>🍏 Receiving Report Control Hub</h2>
-        <p style="margin-top:-8px; margin-bottom:22px; color:var(--muted); font-weight:700; font-size:0.9em; letter-spacing:0.3px;">ABDUL AZIZ FOR FRUITS &amp; VEGETABLES &nbsp;•&nbsp; Quality Operations Division</p>
+        <p style="margin-top:-8px; margin-bottom:22px; color:var(--muted); font-weight:700; font-size:0.9em; letter-spacing:0.3px;">ABDUL AZIZ FOR FRUITS & VEGETABLES  •  Quality Operations Division</p>
 
-        <!-- 1. Header Information -->
         <div class="section">
             <h3>1. Shipment Metadata Header</h3>
             <div class="meta-grid">
@@ -257,7 +255,6 @@
             </div>
         </div>
 
-        <!-- 2. Item & Unit Configurations -->
         <div class="section">
             <h3>2. Dynamic Produce & Unit Master Config</h3>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
@@ -278,7 +275,6 @@
             </div>
         </div>
 
-        <!-- 3. Dynamic Multi-item receiving form grid -->
         <div class="section">
             <h3>3. Shipment Batch Processing Rows</h3>
             <div id="reportForm">
@@ -335,7 +331,6 @@
         </div>
     </div>
 
-    <!-- INTERMEDIARY CONFIRMATION OPTION WINDOW (MODAL) -->
     <div class="modal-overlay" id="optionModal">
         <div class="modal-box">
             <h4>Report Successfully Compiled!</h4>
@@ -345,7 +340,6 @@
         </div>
     </div>
 
-    <!-- 4. OFFICIAL COMPANY PRINT FORMAT DESIGN OUTPUT -->
     <div id="finalReportDisplay">
         <div class="company-header-wrapper">
             <div class="company-header-text">
@@ -387,8 +381,7 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Row data enters here dynamically -->
-            </tbody>
+                </tbody>
             <tfoot>
                 <tr style="background-color: #f3f4f6; font-weight: 800; color: var(--leaf-dark); border-top: 2px solid var(--leaf-dark);">
                     <td colspan="4" style="text-align: right; padding: 12px;">Grand Total:</td>
@@ -400,7 +393,6 @@
             </tfoot>
         </table>
 
-        <!-- Custom Corporate Remarks Sections -->
         <div style="margin-top: 30px; font-size: 14px;">
             <strong style="color: var(--leaf-dark); font-size: 1.05em;">Operation Notes & Remarks</strong>
             <div style="margin-top: 8px;">
@@ -412,7 +404,6 @@
             </div>
         </div>
 
-        <!-- Role Signature Elements Blocks -->
         <div class="signature-block">
             <div class="signature-line">Prepared By : <br><small style="font-weight:normal; color:#6b7280;">(Report Creator)</small></div>
             <div class="signature-line">Received By : <br><small style="font-weight:normal; color:#6b7280;">(Container Receiver)</small></div>
@@ -465,14 +456,8 @@
 
     let reportDataLog = [];
 
-    // Shows a temporary, non-blocking notification instead of alert()/confirm().
-    // This matters for embedded contexts (e.g. Google Sites) where sandboxed
-    // iframes often silently block native browser dialogs.
-    // Automatically appends the °C unit as the user types a receiving
-    // temperature, so they only ever need to type the number.
     function formatTempInput(el, finalize) {
         let raw = el.value;
-        // Keep only digits, one leading minus/plus, and one decimal point
         let numPart = raw.replace(/[^\d.\-+]/g, '');
         if (numPart === '' || numPart === '-' || numPart === '+') {
             el.value = numPart;
@@ -480,7 +465,6 @@
         }
         el.value = numPart + '°C';
         if (finalize) {
-            // Move cursor to end after formatting on blur
             el.setSelectionRange && el.setSelectionRange(el.value.length, el.value.length);
         }
     }
@@ -529,7 +513,6 @@
     }
 
     function updateAllSelectDropdowns() {
-        // Update Items Dropdowns
         document.querySelectorAll('.item-select').forEach(select => {
             const currentVal = select.value;
             select.innerHTML = "";
@@ -542,7 +525,6 @@
             if(currentVal) select.value = currentVal;
         });
 
-        // Update Units Dropdowns
         document.querySelectorAll('.unit-select').forEach(select => {
             const currentVal = select.value;
             select.innerHTML = "";
@@ -706,9 +688,6 @@
         document.getElementById('finalReportDisplay').classList.add('report-visible');
         window.scrollTo({ top: document.getElementById('finalReportDisplay').offsetTop, behavior: 'smooth' });
 
-        // Automatically produce the PDF once the report is built. A short
-        // delay lets the browser finish laying out/painting the table and
-        // photo thumbnails before it's captured.
         showToast("Report generated. Preparing your PDF…", "success");
         setTimeout(downloadReportAsPDF, 500);
     }
@@ -718,11 +697,6 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Builds a real PDF client-side (via html2canvas + jsPDF) and triggers
-    // a download. This does NOT depend on window.print() or any native
-    // browser dialog, so it keeps working inside sandboxed embeds such as
-    // a Google Sites "Embed code" block, where print/alert dialogs are
-    // often silently blocked.
     async function downloadReportAsPDF() {
         const reportEl = document.getElementById('finalReportDisplay');
         if (!reportEl || !reportEl.classList.contains('report-visible')) {
@@ -730,23 +704,36 @@
             return;
         }
         if (typeof html2canvas === 'undefined' || typeof window.jspdf === 'undefined') {
-            showToast("PDF library failed to load (check your internet connection), falling back to Print.", "error");
+            showToast("PDF library failed to load, falling back to Print.", "error");
             safePrint();
             return;
         }
 
+        const originalWidth = reportEl.style.width;
+        const originalMaxWidth = reportEl.style.maxWidth;
+        const originalMargin = reportEl.style.margin;
+        
+        reportEl.style.width = '794px';
+        reportEl.style.maxWidth = '794px';
+        reportEl.style.margin = '0 auto';
+
+        await new Promise(resolve => setTimeout(resolve, 100));
+
         try {
             const canvas = await html2canvas(reportEl, {
-                scale: 2,
+                scale: 2, 
                 useCORS: true,
                 backgroundColor: '#ffffff',
+                windowWidth: 794, 
                 ignoreElements: (el) => el.classList && el.classList.contains('no-print')
             });
+            
             const imgData = canvas.toDataURL('image/png');
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF('p', 'mm', 'a4');
+            
             const pageWidth = pdf.internal.pageSize.getWidth();
-            const pageHeight = pdf.internal.pageSize.getHeight();
+            const pageHeight = pdf.internal.pageSize.getHeight(); 
             const imgWidth = pageWidth;
             const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
@@ -767,17 +754,18 @@
             const dateStamp = new Date().toISOString().slice(0, 10);
             pdf.save(`Receiving_Report_${supplier}_${dateStamp}.pdf`);
             showToast("PDF downloaded successfully!", "success");
+            
         } catch (err) {
             console.error('PDF generation failed:', err);
             showToast("Automatic PDF download failed. Trying Print instead.", "error");
             safePrint();
+        } finally {
+            reportEl.style.width = originalWidth;
+            reportEl.style.maxWidth = originalMaxWidth;
+            reportEl.style.margin = originalMargin;
         }
     }
 
-    // window.print() can be blocked when this page runs inside a sandboxed
-    // iframe (e.g. pasted directly into a Google Sites "Embed code" block).
-    // If that happens, guide the person to open the file in its own tab
-    // instead of failing silently.
     function safePrint() {
         try {
             const ok = window.print();
