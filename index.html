@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Receiving Record System - Abdul Aziz For Fruits & Vegetables</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght=500;600;700;800&family=Nunito:ital,wght=0,400;0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
     <style>
         :root {
             --leaf: #1B7A3D;
@@ -146,9 +146,10 @@
             margin: 20px auto 0;
             font-size: 15px;
             min-height: 1123px;
+            width: 100%;
         }
         #finalReportDisplay.report-visible { display: flex; }
-        .company-header-wrapper { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--tangerine); padding-bottom: 15px; margin-bottom: 15px; }
+        .company-header-wrapper { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--tangerine); padding-bottom: 15px; margin-bottom: 15px; width: 100%; }
         .company-header-text h1 { margin: 0; font-size: 20px; font-weight: 800; color: var(--leaf-dark); letter-spacing: 0.3px; font-family: 'Baloo 2', sans-serif; }
         .company-header-text p { margin: 3px 0; font-size: 12px; color: var(--muted); font-weight: 600; }
         .company-logo-img { max-height: 68px; width: auto; object-fit: contain; }
@@ -159,43 +160,62 @@
             background: var(--mint-pale);
             border: 1px solid #cdeadb;
             padding: 9px; border-radius: 8px;
+            width: 100%;
         }
         
-        .meta-table-wrapper { display: flex; justify-content: space-between; background: var(--mint-pale); padding: 13px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid var(--tangerine); font-size: 13px; }
+        .meta-table-wrapper { display: flex; justify-content: space-between; background: var(--mint-pale); padding: 13px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid var(--tangerine); font-size: 13px; width: 100%; }
         .meta-table { width: 48%; border: none; }
         .meta-table td { border: none; padding: 3px 0; font-size: 13px; color: var(--charcoal); }
 
-        #finalReportTable { width: 100%; table-layout: fixed; border-collapse: collapse; margin-top: 13px; border-radius: 8px; overflow: hidden; font-size: 13px; }
-        #finalReportTable th { background: #DCEFE2; color: var(--leaf-dark); font-weight: 700; padding: 9px 6px; text-transform: uppercase; font-size: 0.74em; letter-spacing: 0.2px; border: 1px solid #c7e4d1; font-family: 'Baloo 2', sans-serif; word-wrap: break-word; }
-        #finalReportTable td { padding: 8px; border: 1px solid var(--line); font-size: 0.92em; word-wrap: break-word; overflow-wrap: break-word; }
-        #finalReportTable tr:nth-child(even) { background-color: var(--cream); }
-        #finalReportTable tr:hover { background-color: var(--cream-deep); }
+        #finalReportTable, .verification-table { width: 100%; table-layout: fixed; border-collapse: collapse; margin-top: 13px; border-radius: 8px; overflow: hidden; font-size: 13px; }
+        #finalReportTable th, .verification-table th { background: #DCEFE2; color: var(--leaf-dark); font-weight: 700; padding: 9px 6px; text-transform: uppercase; font-size: 0.74em; letter-spacing: 0.2px; border: 1px solid #c7e4d1; font-family: 'Baloo 2', sans-serif; word-wrap: break-word; }
+        #finalReportTable td, .verification-table td { padding: 8px; border: 1px solid var(--line); font-size: 0.92em; word-wrap: break-word; overflow-wrap: break-word; }
+        #finalReportTable tr:nth-child(even), .verification-table tr:nth-child(even) { background-color: var(--cream); }
         
         .badge-alert { background-color: #fde3e0; color: var(--tomato-dark); font-weight: 800; padding: 3px 8px; border-radius: 20px; border: 1px solid #f3ada5; font-size: 0.9em; }
         .badge-success { background-color: #dff5e6; color: var(--leaf-dark); font-weight: 800; padding: 3px 8px; border-radius: 20px; border: 1px solid #b7e6c4; font-size: 0.9em; }
 
-        .textarea-box { background: var(--cream); border-radius: 8px; padding: 11px; margin-top: 4px; font-style: italic; border-left: 3px solid var(--tangerine); color: #55493b; font-size: 13px; }
+        .textarea-box { background: var(--cream); border-radius: 8px; padding: 11px; margin-top: 4px; font-style: italic; border-left: 3px solid var(--tangerine); color: #55493b; font-size: 13px; width: 100%; }
 
-        .signature-block { display: flex; justify-content: space-between; margin-top: auto; padding-top: 40px; text-align: center; }
+        .signature-block { display: flex; justify-content: space-between; margin-top: auto; padding-top: 36px; text-align: center; width: 100%; }
         .signature-line { width: 28%; border-top: 3px solid var(--leaf); padding-top: 6px; font-size: 13px; font-weight: 800; color: var(--leaf-dark); font-family: 'Baloo 2', sans-serif; }
 
         @media print {
-            @page { margin: 12mm; }
+            @page { margin: 10mm; size: portrait; }
             html, body {
-                background: #fff !important;
+                background: #ffffff !important;
+                background-image: none !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
                 color-adjust: exact !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
             }
             body * { visibility: hidden; }
             #finalReportDisplay, #finalReportDisplay * { visibility: visible; }
             #finalReportDisplay {
                 display: flex !important;
-                position: absolute; left: 0; top: 0; width: 100%;
-                border: none; padding: 0; margin: 0;
-                box-shadow: none;
+                position: absolute; 
+                left: 0; 
+                top: 0; 
+                width: 100% !important;
+                max-width: 100% !important;
+                border: none !important; 
+                padding: 20px !important; 
+                margin: 0 !important;
+                box-shadow: none !important;
+                box-sizing: border-box !important;
             }
-            .no-print, #toastContainer { display: none !important; }
+            #finalReportTable {
+                width: 100% !important;
+                table-layout: fixed !important;
+            }
+            .meta-table-wrapper, .company-header-wrapper, .textarea-box, .signature-block {
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            .no-print, #toastContainer, .modal-overlay { display: none !important; }
         }
 
         #toastContainer {
@@ -216,6 +236,26 @@
         @keyframes toastIn {
             from { opacity: 0; transform: translateY(-8px); }
             to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .added-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--line);
+            margin-top: 6px;
+            font-size: 0.9em;
+        }
+        
+        .verification-panel {
+            margin-top: 20px;
+            padding: 15px;
+            background: #ffffff;
+            border-radius: 10px;
+            border: 1px solid var(--line);
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -269,14 +309,17 @@
         </div>
 
         <div class="section">
-            <h3>2. Add Additional Product or Unit </h3>
+            <h3>2. Add Additional Product or Unit</h3>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                 <div>
                     <label>Add Extra Item:</label>
-                    <div style="display: flex; gap: 10px;">
-                        <input type="text" id="newItemName" placeholder="e.g., Berry توت">
-                        <button onclick="addItem()" class="btn-success" style="margin-top: 5px; width: 120px;">Add Item</button>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="text" id="newItemName" placeholder="e.g., Berry توت" style="flex: 2;">
+                        <input type="number" id="newItemQty" placeholder="Qty" style="flex: 1; min-width: 70px;">
+                        <button onclick="addItem()" class="btn-success" style="margin-top: 5px; width: auto; padding: 10px 15px;">Add Item</button>
                     </div>
+                    <div id="addedItemsContainer" style="margin-top: 10px; max-height: 150px; overflow-y: auto;">
+                        </div>
                 </div>
                 <div>
                     <label>Add Extra Unit Type:</label>
@@ -289,7 +332,7 @@
         </div>
 
         <div class="section">
-            <h3>3. Shipment Item-wise Receiving Details </h3>
+            <h3>3. Shipment Item-wise Receiving Details</h3>
             <div id="reportForm">
                 <div id="dynamicRowsContainer">
                     <div class="form-row">
@@ -325,8 +368,34 @@
                     </div>
                 </div>
 
-                <button type="button" onclick="addNewRowToForm()" class="btn-secondary" style="width: auto; margin-right: 10px;"> ➕ Add Another Item </button>
-                <button type="button" onclick="submitBatchData()" class="btn-primary" style="width: auto;"> 💾 Save Current Entries</button>
+                <div style="display: flex; justify-flex-end;">
+                    <button type="button" onclick="submitBatchData()" class="btn-success" style="width: auto; margin-top: 5px; padding: 10px 24px;"> 💾 Save Current Entries</button>
+                </div>
+            </div>
+
+            <div class="verification-panel">
+                <h4 style="margin: 0 0 10px 0; font-family: 'Baloo 2', sans-serif; color: var(--tangerine-dark);">🔍 Saved Items Staging Area (Verify Before Compiling)</h4>
+                <div style="overflow-x: auto;">
+                    <table class="verification-table" id="verificationLogTable">
+                        <thead>
+                            <tr>
+                                <th style="width: 40px; text-align: center;">No</th>
+                                <th>Item Name</th>
+                                <th style="width: 100px;">Unit</th>
+                                <th style="width: 100px; text-align: right;">Inv Qty</th>
+                                <th style="width: 100px; text-align: right;">Rec Qty</th>
+                                <th style="width: 100px; text-align: right;">Diff</th>
+                                <th style="width: 150px;">Status</th>
+                                <th style="width: 60px; text-align: center;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="8" style="text-align: center; color: var(--muted); font-style: italic; padding: 15px;">No saved items captured yet. Click "Save Current Entries" above to verify entries here.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <div style="margin-top: 20px; display: flex; gap: 20px;">
@@ -385,7 +454,7 @@
                 <tr>
                     <th style="width: 34px; text-align: center;">No</th>
                     <th style="width: 58px; text-align: center;">Photo</th>
-                    <th style="width: 34%;">ITEMS</th>
+                    <th style="width: 42%;">ITEMS</th>
                     <th style="width: 70px;">UNIT</th>
                     <th style="width: 75px; text-align: right;">INVOICE QTY</th>
                     <th style="width: 80px; text-align: right;">RECEIVED QTY</th>
@@ -394,7 +463,7 @@
                 </tr>
             </thead>
             <tbody>
-                </tbody>
+            </tbody>
             <tfoot>
                 <tr style="background-color: #f3f4f6; font-weight: 800; color: var(--leaf-dark); border-top: 2px solid var(--leaf-dark);">
                     <td colspan="4" style="text-align: right; padding: 12px;">Grand Total:</td>
@@ -406,9 +475,9 @@
             </tfoot>
         </table>
 
-        <div style="margin-top: 30px; font-size: 14px;">
+        <div style="margin-top: 30px; font-size: 14px; width: 100%;">
             <strong style="color: var(--leaf-dark); font-size: 1.05em;">Operation Notes & Remarks</strong>
-            <div style="margin-top: 8px;">
+            <div style="margin-top: 8px; width: 100%;">
                 <strong style="font-size: 0.9em; color:#4b5563;">General Remarks Log:</strong>
                 <p id="lblNotes" class="textarea-box">None recorded.</p>
                 
@@ -460,6 +529,7 @@
     ];
 
     let reportDataLog = [];
+    let customAddedItems = [];
 
     function formatTempInput(el, finalize) {
         let raw = el.value;
@@ -495,14 +565,38 @@
 
     function addItem() {
         const itemNameInput = document.getElementById('newItemName');
+        const itemQtyInput = document.getElementById('newItemQty');
         const itemName = itemNameInput.value.trim();
-        if (itemName && !items.includes(itemName)) {
-            items.push(itemName);
+        const itemQty = itemQtyInput.value.trim() || "0";
+
+        if (itemName) {
+            if (!items.includes(itemName)) {
+                items.push(itemName);
+            }
+            
+            customAddedItems.push({ name: itemName, qty: itemQty });
+            renderAddedItemsList();
             updateAllSelectDropdowns();
+            
             itemNameInput.value = '';
+            itemQtyInput.value = '';
         } else {
-            showToast("Empty or duplicate item entry.", "error");
+            showToast("Empty item entry.", "error");
         }
+    }
+
+    function renderAddedItemsList() {
+        const container = document.getElementById('addedItemsContainer');
+        container.innerHTML = '';
+        customAddedItems.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = 'added-item-row';
+            div.innerHTML = `
+                <span><strong>${item.name}</strong></span>
+                <span>Qty: <span style="color: var(--tangerine); font-weight: 700;">${item.qty}</span></span>
+            `;
+            container.appendChild(div);
+        });
     }
 
     function addUnit() {
@@ -543,25 +637,6 @@
         });
     }
 
-    function addNewRowToForm() {
-        const container = document.getElementById('dynamicRowsContainer');
-        const newRow = document.createElement('div');
-        newRow.className = 'form-row';
-        
-        newRow.innerHTML = `
-            <div style="flex: 2;"><select class="item-select"></select></div>
-            <div style="flex: 1;"><select class="unit-select"></select></div>
-            <div><input type="number" class="invoice-qty" style="text-align: right;" oninput="calculateRowDifference(this)"></div>
-            <div><input type="number" class="actual-qty" style="text-align: right;" oninput="calculateRowDifference(this)"></div>
-            <div><input type="number" class="difference-qty" style="text-align: right; background-color:#f3f4f6;" readonly></div>
-            <div style="flex: 1.5;"><input type="text" class="complaint-text" placeholder="Condition details..."></div>
-            <div style="flex: 1.2;"><input type="file" class="photo-file" accept="image/*"></div>
-            <div style="flex: 0 0 40px;"><button type="button" class="btn-danger" onclick="this.closest('.form-row').remove()">✖</button></div>
-        `;
-        container.appendChild(newRow);
-        updateAllSelectDropdowns();
-    }
-
     function calculateRowDifference(inputElement) {
         const row = inputElement.closest('.form-row');
         const invoiceInput = row.querySelector('.invoice-qty');
@@ -587,7 +662,7 @@
             }
         });
 
-        if (hasError) {
+        if (hasError && rows.length > 0) {
             showToast("Please fill in Invoice Qty and Received Qty for every row before logging.", "error");
             return;
         }
@@ -609,8 +684,23 @@
             reportDataLog.push({ item, unit, invoiceQty, actualQty, difference, complaint, photoSrc });
         });
 
-        showToast("Batch components logged into dashboard layout successfully!", "success");
+        customAddedItems.forEach(cItem => {
+            reportDataLog.push({
+                item: cItem.name,
+                unit: units[0],
+                invoiceQty: parseFloat(cItem.qty) || 0,
+                actualQty: parseFloat(cItem.qty) || 0,
+                difference: 0,
+                complaint: "Quick List Entry",
+                photoSrc: ""
+            });
+        });
+
+        showToast("Batch components logged and ready for verification!", "success");
         
+        customAddedItems = [];
+        document.getElementById('addedItemsContainer').innerHTML = '';
+
         document.getElementById('dynamicRowsContainer').innerHTML = `
             <div class="form-row">
                 <div style="flex: 2;"><label>Item Name:</label><select class="item-select"></select></div>
@@ -624,11 +714,42 @@
             </div>
         `;
         updateAllSelectDropdowns();
+        renderVerificationLog();
+    }
+
+    function renderVerificationLog() {
+        const tbody = document.querySelector('#verificationLogTable tbody');
+        if (reportDataLog.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--muted); font-style: italic; padding: 15px;">No saved items captured yet. Click "Save Current Entries" above to verify entries here.</td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = '';
+        reportDataLog.forEach((row, idx) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td style="text-align: center; font-weight: bold; color: var(--leaf);">${idx + 1}</td>
+                <td><strong>${row.item}</strong></td>
+                <td>${row.unit}</td>
+                <td style="text-align: right; font-weight: 600;">${row.invoiceQty}</td>
+                <td style="text-align: right; font-weight: 600; color: var(--leaf-dark);">${row.actualQty}</td>
+                <td style="text-align: right; color: ${row.difference !== 0 ? 'var(--tomato-dark)' : 'inherit'}">${row.difference}</td>
+                <td><small>${row.complaint}</small></td>
+                <td style="text-align: center;"><button class="btn-danger" style="margin: 0; padding: 2px 6px; font-size: 11px;" onclick="removeLoggedItem(${idx})">Remove</button></td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function removeLoggedItem(index) {
+        reportDataLog.splice(index, 1);
+        renderVerificationLog();
+        showToast("Item row removed from staging log.", "warning");
     }
 
     function triggerReportOption() {
         if(reportDataLog.length === 0) {
-            showToast("Staging container is empty. Please log your items into the batch first.", "warning");
+            showToast("Staging container is empty. Please save your items into the batch first.", "warning");
             return;
         }
         document.getElementById('optionModal').style.display = 'flex';
@@ -693,8 +814,7 @@
         document.getElementById('finalReportDisplay').classList.add('report-visible');
         window.scrollTo({ top: document.getElementById('finalReportDisplay').offsetTop, behavior: 'smooth' });
 
-        showToast("Report generated. Preparing your PDF…", "success");
-        setTimeout(downloadReportAsPDF, 500);
+        showToast("Report generated successfully.", "success");
     }
 
     function closeReport() {
@@ -714,22 +834,28 @@
             return;
         }
 
+        showToast("Preparing your PDF export structure…", "success");
+
+        // Save original configurations
         const originalWidth = reportEl.style.width;
         const originalMaxWidth = reportEl.style.maxWidth;
         const originalMargin = reportEl.style.margin;
+        const originalFontSize = reportEl.style.fontSize;
         
-        reportEl.style.width = '756px';
-        reportEl.style.maxWidth = '756px';
+        // Adjust structural layout layout and boost text size by 5% (15px -> 15.75px)
+        reportEl.style.width = '1024px';
+        reportEl.style.maxWidth = '1024px';
         reportEl.style.margin = '0 auto';
+        reportEl.style.fontSize = '20px';
 
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise(resolve => setTimeout(resolve, 300));
 
         try {
             const canvas = await html2canvas(reportEl, {
                 scale: 2,
                 useCORS: true,
                 backgroundColor: '#ffffff',
-                windowWidth: 756,
+                windowWidth: 1024,
                 ignoreElements: (el) => el.classList && el.classList.contains('no-print')
             });
             const imgData = canvas.toDataURL('image/png');
@@ -762,18 +888,19 @@
             showToast("Automatic PDF download failed. Trying Print instead.", "error");
             safePrint();
         } finally {
+            // Restore everything back smoothly on screen interface
             reportEl.style.width = originalWidth;
             reportEl.style.maxWidth = originalMaxWidth;
             reportEl.style.margin = originalMargin;
+            reportEl.style.fontSize = originalFontSize;
         }
     }
 
     function safePrint() {
         try {
-            const ok = window.print();
-            if (ok === false) { throw new Error('print blocked'); }
+            window.print();
         } catch (err) {
-            showToast("Printing is blocked inside this embedded view. Open this page in its own browser tab and try again.", "warning");
+            showToast("Printing failed or is blocked in this window framework.", "warning");
         }
     }
 </script>
