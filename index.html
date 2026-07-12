@@ -229,7 +229,6 @@
     <div class="crate-stripe"></div>
     <div class="no-print">
         
-        <!-- UPDATED HEADER HUB: Title centered, sub-labels underneath, logo locked to the right side -->
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; gap: 15px; padding-top: 15px;">
             <div style="flex: 1;"></div>
             
@@ -245,7 +244,6 @@
             </div>
         </div>
 
-        <!-- 1. Header Information -->
         <div class="section">
             <h3>1. Shipment Metadata Header</h3>
             <div class="meta-grid">
@@ -270,7 +268,6 @@
             </div>
         </div>
 
-        <!-- 2. Item & Unit Configurations -->
         <div class="section">
             <h3>2. Dynamic Produce & Unit Master Config</h3>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
@@ -291,7 +288,6 @@
             </div>
         </div>
 
-        <!-- 3. Dynamic Multi-item receiving form grid -->
         <div class="section">
             <h3>3. Shipment Batch Processing Rows</h3>
             <div id="reportForm">
@@ -348,7 +344,6 @@
         </div>
     </div>
 
-    <!-- INTERMEDIARY CONFIRMATION OPTION WINDOW (MODAL) -->
     <div class="modal-overlay" id="optionModal">
         <div class="modal-box">
             <h4>Report Successfully Compiled!</h4>
@@ -358,7 +353,6 @@
         </div>
     </div>
 
-    <!-- 4. OFFICIAL COMPANY PRINT FORMAT DESIGN OUTPUT -->
     <div id="finalReportDisplay">
         <div class="company-header-wrapper">
             <div class="company-header-text">
@@ -400,8 +394,7 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Row data enters here dynamically -->
-            </tbody>
+                </tbody>
             <tfoot>
                 <tr style="background-color: #f3f4f6; font-weight: 800; color: var(--leaf-dark); border-top: 2px solid var(--leaf-dark);">
                     <td colspan="4" style="text-align: right; padding: 12px;">Grand Total:</td>
@@ -413,7 +406,6 @@
             </tfoot>
         </table>
 
-        <!-- Custom Corporate Remarks Sections -->
         <div style="margin-top: 30px; font-size: 14px;">
             <strong style="color: var(--leaf-dark); font-size: 1.05em;">Operation Notes & Remarks</strong>
             <div style="margin-top: 8px;">
@@ -425,7 +417,6 @@
             </div>
         </div>
 
-        <!-- Role Signature Elements Blocks -->
         <div class="signature-block">
             <div class="signature-line">Prepared By : <br><small style="font-weight:normal; color:#6b7280;">(Report Creator)</small></div>
             <div class="signature-line">Received By : <br><small style="font-weight:normal; color:#6b7280;">(Container Receiver)</small></div>
@@ -770,7 +761,7 @@
             console.error('PDF generation failed:', err);
             showToast("Automatic PDF download failed. Trying Print instead.", "error");
             safePrint();
-        } finaly {
+        } finally {
             reportEl.style.width = originalWidth;
             reportEl.style.maxWidth = originalMaxWidth;
             reportEl.style.margin = originalMargin;
