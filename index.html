@@ -145,7 +145,7 @@
             border-radius: 14px;
             margin: 20px auto 0;
             font-size: 15px;
-            min-height: 1123px;
+            min-height: 1448px; /* matches A4 portrait ratio (297/210) at the 1024px export width used by downloadReportAsPDF() */
             width: 100%;
         }
         #finalReportDisplay.report-visible { display: flex; }
@@ -179,6 +179,25 @@
 
         .signature-block { display: flex; justify-content: space-between; margin-top: auto; padding-top: 36px; text-align: center; width: 100%; }
         .signature-line { width: 28%; border-top: 3px solid var(--leaf); padding-top: 6px; font-size: 13px; font-weight: 800; color: var(--leaf-dark); font-family: 'Baloo 2', sans-serif; }
+
+        /* Larger type used only while capturing the report for PDF export,
+           so the exported document is easier to read than the on-screen view. */
+        #finalReportDisplay.pdf-export-mode { font-size: 19px; }
+        #finalReportDisplay.pdf-export-mode .company-header-text h1 { font-size: 26px; }
+        #finalReportDisplay.pdf-export-mode .company-header-text p { font-size: 15px; }
+        #finalReportDisplay.pdf-export-mode .doc-title { font-size: 21px; }
+        #finalReportDisplay.pdf-export-mode .meta-table-wrapper,
+        #finalReportDisplay.pdf-export-mode .meta-table td { font-size: 17px; }
+        #finalReportDisplay.pdf-export-mode #finalReportTable,
+        #finalReportDisplay.pdf-export-mode .verification-table { font-size: 17px; }
+        #finalReportDisplay.pdf-export-mode #finalReportTable th,
+        #finalReportDisplay.pdf-export-mode .verification-table th { font-size: 0.8em; padding: 12px 8px; }
+        #finalReportDisplay.pdf-export-mode #finalReportTable td,
+        #finalReportDisplay.pdf-export-mode .verification-table td { font-size: 0.95em; padding: 11px; }
+        #finalReportDisplay.pdf-export-mode .textarea-box { font-size: 17px; }
+        #finalReportDisplay.pdf-export-mode .signature-line { font-size: 17px; }
+        #finalReportDisplay.pdf-export-mode .badge-alert,
+        #finalReportDisplay.pdf-export-mode .badge-success { font-size: 1em; }
 
         @media print {
             @page { margin: 10mm; size: portrait; }
@@ -368,7 +387,7 @@
                     </div>
                 </div>
 
-                <div style="display: flex; justify-flex-end;">
+                <div style="display: flex; justify-content: flex-end;">
                     <button type="button" onclick="submitBatchData()" class="btn-success" style="width: auto; margin-top: 5px; padding: 10px 24px;"> 💾 Save Current Entries</button>
                 </div>
             </div>
@@ -452,14 +471,14 @@
         <table id="finalReportTable">
             <thead>
                 <tr>
-                    <th style="width: 34px; text-align: center;">No</th>
-                    <th style="width: 58px; text-align: center;">Photo</th>
-                    <th style="width: 42%;">ITEMS</th>
-                    <th style="width: 70px;">UNIT</th>
-                    <th style="width: 75px; text-align: right;">INVOICE QTY</th>
-                    <th style="width: 80px; text-align: right;">RECEIVED QTY</th>
-                    <th style="width: 70px; text-align: right;">DIFFERENCE</th>
-                    <th>STATUS / COMPLAINTS</th>
+                    <th style="width: 4%; text-align: center;">No</th>
+                    <th style="width: 7%; text-align: center;">Photo</th>
+                    <th style="width: 32%;">ITEMS</th>
+                    <th style="width: 8%;">UNIT</th>
+                    <th style="width: 10%; text-align: right;">INVOICE QTY</th>
+                    <th style="width: 10%; text-align: right;">RECEIVED QTY</th>
+                    <th style="width: 9%; text-align: right;">DIFFERENCE</th>
+                    <th style="width: 20%;">STATUS / COMPLAINTS</th>
                 </tr>
             </thead>
             <tbody>
@@ -836,17 +855,14 @@
 
         showToast("Preparing your PDF export structure…", "success");
 
-        // Save original configurations
         const originalWidth = reportEl.style.width;
         const originalMaxWidth = reportEl.style.maxWidth;
         const originalMargin = reportEl.style.margin;
-        const originalFontSize = reportEl.style.fontSize;
         
-        // Adjust structural layout layout and boost text size by 5% (15px -> 15.75px)
         reportEl.style.width = '1024px';
         reportEl.style.maxWidth = '1024px';
         reportEl.style.margin = '0 auto';
-        reportEl.style.fontSize = '20px';
+        reportEl.classList.add('pdf-export-mode');
 
         await new Promise(resolve => setTimeout(resolve, 300));
 
@@ -888,11 +904,10 @@
             showToast("Automatic PDF download failed. Trying Print instead.", "error");
             safePrint();
         } finally {
-            // Restore everything back smoothly on screen interface
             reportEl.style.width = originalWidth;
             reportEl.style.maxWidth = originalMaxWidth;
             reportEl.style.margin = originalMargin;
-            reportEl.style.fontSize = originalFontSize;
+            reportEl.classList.remove('pdf-export-mode');
         }
     }
 
