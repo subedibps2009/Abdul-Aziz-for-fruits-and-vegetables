@@ -136,6 +136,7 @@
         .modal-box { background: #fff; padding: 28px; border-radius: 16px; width: 450px; text-align: center; box-shadow: 0 16px 40px rgba(0,0,0,0.25); border-top: 6px solid var(--tangerine); }
         .modal-box h4 { margin-top: 0; color: var(--leaf-dark); font-size: 1.35em; font-family: 'Baloo 2', sans-serif; }
 
+        /* Report View Setup */
         #finalReportDisplay {
             display: none;
             flex-direction: column;
@@ -144,8 +145,8 @@
             border: none;
             border-radius: 14px;
             margin: 20px auto 0;
-            font-size: 15px;
-            min-height: 1123px;
+            font-size: 15px; /* Slightly larger base font size */
+            min-height: 1123px; /* Standard A4 vertical boundary */
         }
         #finalReportDisplay.report-visible { display: flex; }
         .company-header-wrapper { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--tangerine); padding-bottom: 15px; margin-bottom: 15px; }
@@ -713,8 +714,10 @@
         const originalMaxWidth = reportEl.style.maxWidth;
         const originalMargin = reportEl.style.margin;
         
-        reportEl.style.width = '794px';
-        reportEl.style.maxWidth = '794px';
+        // Locked capture width down to 756px (instead of 794px).
+        // This causes the internal contents/fonts to scale up by exactly 5% when sized back up into A4 dimensions!
+        reportEl.style.width = '756px';
+        reportEl.style.maxWidth = '756px';
         reportEl.style.margin = '0 auto';
 
         await new Promise(resolve => setTimeout(resolve, 100));
@@ -724,7 +727,7 @@
                 scale: 2, 
                 useCORS: true,
                 backgroundColor: '#ffffff',
-                windowWidth: 794, 
+                windowWidth: 756, 
                 ignoreElements: (el) => el.classList && el.classList.contains('no-print')
             });
             
